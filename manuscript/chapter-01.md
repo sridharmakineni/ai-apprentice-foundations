@@ -223,12 +223,50 @@ and explain the result.
 An **agent** is a system that can reason about a goal, use tools to act, observe what
 happened, and decide what to do next. The defining feature is the loop, not the model.
 
-```text
-     ┌────────────────────────────┐
-     ↓                            │
-  observe → reason → act (tool) → observe
-                                  │
-                              goal met? → done
+```{=typst}
+#let stage(label) = block(
+  width: 3.1cm, height: 1.5cm,
+  fill: rgb("#F4F5F6"), stroke: 0.8pt + rgb("#C9CFD4"), radius: 3pt,
+  inset: 7pt,
+)[
+  #set align(center + horizon)
+  #set par(justify: false, leading: 0.45em)
+  #text(size: 9pt, weight: "bold", font: ("Segoe UI", "Calibri"), fill: rgb("#26292B"))[#label]
+]
+
+#let arrow = {
+  set align(horizon)
+  text(size: 15pt, fill: rgb("#F0B323"), weight: "bold")[→]
+}
+
+#block(width: 100%, inset: (y: 10pt))[
+  #set align(center)
+  #grid(
+    columns: (auto, 0.55cm, auto, 0.55cm, auto, 0.55cm, auto),
+    align: horizon,
+    stage("Observe"), arrow,
+    stage("Reason"), arrow,
+    stage("Act\nvia a tool"), arrow,
+    stage("Observe\nthe result"),
+  )
+  #v(2pt)
+  // the loop back, drawn as a bracket under the row
+  #box(width: 15.3cm, height: 0.95cm)[
+    #place(top + left, line(start: (0.35cm, 0cm), end: (0.35cm, 0.6cm),
+                            stroke: 1pt + rgb("#C9CFD4")))
+    #place(top + left, line(start: (0.35cm, 0.6cm), end: (14.95cm, 0.6cm),
+                            stroke: 1pt + rgb("#C9CFD4")))
+    #place(top + left, line(start: (14.95cm, 0.6cm), end: (14.95cm, 0cm),
+                            stroke: 1pt + rgb("#C9CFD4")))
+    #place(top + center, dy: 0.62cm)[
+      #box(fill: white, inset: (x: 6pt))[
+        #text(size: 8.5pt, font: ("Segoe UI", "Calibri"), fill: rgb("#5A6269"))[
+          goal not met yet — go round again
+        ]
+      ]
+    ]
+  ]
+]
 ```
 
 A chatbot answers and stops. An agent answers, notices it needs the current project
@@ -245,7 +283,7 @@ enormous. The question worth asking is never "is it an agent?" but:
 
 An agent that can only read is a convenience. An agent that can write to production
 systems is an entirely different proposition, and the distinction deserves more
-attention than it usually gets. Books III and IV of this series are about building these
+attention than it usually gets. Book III of this series is about building these
 properly.
 
 ## Training, inference, and the question everyone gets wrong
@@ -294,7 +332,7 @@ real but higher than most developers assume.
 
 **Azure AI Foundry** is the developer platform: model catalogue, deployments,
 evaluation, agent hosting, content safety. This is where you go when you are building
-rather than configuring, and it is the subject of Book IV.
+rather than configuring, and it is the subject of Book III.
 
 **Azure OpenAI** is the model endpoint itself, now reached through Foundry. When you
 write code that calls a model, this is usually what you're calling.
@@ -343,6 +381,56 @@ is exactly the position you're in during most real conversations.
 
 The next chapter puts that vocabulary to work in Python, because from here on the way to
 understand these systems is to build small ones badly and watch what happens.
+
+## Build this: the "What is AI?" deck
+
+**Ten slides, for a room of colleagues in your own organization.** IT staff, business
+analysts, a couple of managers. Not stupid, not technical, and several of them have been
+told by a vendor this year that something is "AI-powered" and privately suspect it isn't.
+
+Your job is not to impress them. It is to leave them able to ask better questions.
+
+### Why a deck and not an essay
+
+Because you cannot hide in slides. An essay lets you write four paragraphs that sound
+informed around a concept you only half-grasp. Ten slides force you to compress each idea
+to its load-bearing sentence, and compression is where you find out what you actually
+know.
+
+You will also do exactly this at work within six months.
+
+### The slides
+
+| # | Slide | The test it sets |
+|---|---|---|
+| 1 | Title + the question the deck answers | Can you state the point in one line? |
+| 2 | The nesting — AI → ML → DL → GenAI | Can you draw it from memory? |
+| 3 | Automation vs machine learning, with a real example from your workplace | Do you see the distinction in the wild? |
+| 4 | What generative AI actually does | Can you say it without saying "it understands"? |
+| 5 | Three things it does well | Grounded in your own job, not generic |
+| 6 | Three things it does badly | Harder and more valuable than slide 5 |
+| 7 | Hallucination — what and why | Explain the cause, not just the symptom |
+| 8 | Agent vs chatbot | The loop, not the model size |
+| 9 | Five questions to ask any AI vendor | Your actual contribution |
+| 10 | Where this is going in our organization | An opinion, held honestly |
+
+### Rules
+
+**No slide may contain the phrase "AI understands."** It doesn't, and the shortcut will
+cost you clarity later when you are debugging why it got something wrong.
+
+**Slide 6 must be specific.** "It makes mistakes" is not an answer. "It cannot be trusted
+to compute payroll deductions, because token prediction is not arithmetic" is.
+
+**Slide 9 is yours.** Don't copy the list from this chapter. Write the five questions you
+would actually ask, having read it.
+
+Every claim should survive someone asking *how do you know that?*
+
+### If you want to push further
+
+Present it to one actual human being. The questions they ask will show you which slides
+are weak far faster than re-reading them will.
 
 ---
 

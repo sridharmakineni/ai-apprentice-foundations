@@ -53,6 +53,80 @@ chat application appears to recall what you said five turns ago, it is because t
 application stored those turns and sent the entire conversation again with the new
 message appended. Nothing on the model's side persisted.
 
+```{=typst}
+#let turn-bar(n, history, new-bits) = {
+  let unit = 0.62cm
+  grid(
+    columns: (1.5cm, auto),
+    align: (right + horizon, left + horizon),
+    text(size: 8.5pt, font: ("Segoe UI", "Calibri"), fill: rgb("#5A6269"))[Turn #n],
+    {
+      box(inset: (left: 6pt))[
+        #stack(
+          dir: ltr,
+          ..range(history).map(_ => box(
+            width: unit, height: 0.42cm,
+            fill: rgb("#E4E7EA"), stroke: 0.5pt + rgb("#CDD2D7"),
+          )),
+          ..range(new-bits).map(_ => box(
+            width: unit, height: 0.42cm,
+            fill: rgb("#F0B323"), stroke: 0.5pt + rgb("#D49C14"),
+          )),
+        )
+      ]
+    },
+  )
+}
+
+#block(width: 100%, inset: (y: 9pt))[
+  #turn-bar(1, 0, 1)
+  #v(3pt)
+  #turn-bar(2, 1, 1)
+  #v(3pt)
+  #turn-bar(3, 2, 1)
+  #v(3pt)
+  #turn-bar(4, 3, 1)
+  #v(3pt)
+  #grid(
+    columns: (1.5cm, auto),
+    align: (right + horizon, left + horizon),
+    text(size: 8.5pt, font: ("Segoe UI", "Calibri"), fill: rgb("#5A6269"))[Turn 12],
+    box(inset: (left: 6pt))[
+      #stack(
+        dir: ltr,
+        ..range(11).map(_ => box(width: 0.62cm, height: 0.42cm,
+          fill: rgb("#E4E7EA"), stroke: 0.5pt + rgb("#CDD2D7"))),
+        box(width: 0.62cm, height: 0.42cm,
+          fill: rgb("#F0B323"), stroke: 0.5pt + rgb("#D49C14")),
+      )
+    ],
+  )
+  #v(9pt)
+  #box(inset: (left: 1.5cm + 6pt))[
+    #grid(
+      columns: (auto, auto),
+      column-gutter: 14pt,
+      [
+        #box(width: 0.42cm, height: 0.3cm, fill: rgb("#F0B323"),
+             stroke: 0.5pt + rgb("#D49C14"))
+        #h(4pt)
+        #text(size: 8pt, font: ("Segoe UI", "Calibri"), fill: rgb("#5A6269"))[what you just typed]
+      ],
+      [
+        #box(width: 0.42cm, height: 0.3cm, fill: rgb("#E4E7EA"),
+             stroke: 0.5pt + rgb("#CDD2D7"))
+        #h(4pt)
+        #text(size: 8pt, font: ("Segoe UI", "Calibri"), fill: rgb("#5A6269"))[resent, and paid for, again]
+      ],
+    )
+  ]
+]
+```
+
+Each bar is one request. The amber block is the only new thing; everything grey is
+conversation you already sent, being sent again because the model has no memory of it.
+By turn twelve you are paying to retransmit eleven earlier turns to get one answer.
+
 Three consequences follow, and they explain most of the surprises people hit:
 
 **Cost grows with conversation length.** Turn 20 resends turns 1 through 19. A long
@@ -139,6 +213,50 @@ policy" misses a document titled "Vacation Entitlement" — zero words in common
 search finds it, because the two phrases sit close together in the space regardless of
 sharing no vocabulary.
 
+```{=typst}
+#let dot(x, y, label, kind) = {
+  let col = if kind == "query" { rgb("#26292B") } else if kind == "near" { rgb("#F0B323") } else { rgb("#AEB6BD") }
+  place(top + left, dx: x, dy: y)[
+    #box[
+      #circle(radius: if kind == "query" { 4.5pt } else { 3.5pt }, fill: col,
+              stroke: if kind == "query" { 1.5pt + white } else { none })
+    ]
+  ]
+  place(top + left, dx: x + 0.42cm, dy: y - 0.07cm)[
+    #text(size: 7.8pt, font: ("Segoe UI", "Calibri"),
+          fill: if kind == "far" { rgb("#8A939C") } else { rgb("#26292B") },
+          weight: if kind == "query" { "bold" } else { "regular" })[#label]
+  ]
+}
+
+#block(width: 100%, inset: (y: 10pt))[
+  #box(width: 100%, height: 6.2cm, fill: rgb("#FAFBFC"),
+       stroke: 0.6pt + rgb("#E2E6E9"), radius: 2pt)[
+    // the close cluster, ringed
+    #place(top + left, dx: 1.7cm, dy: 0.9cm)[
+      #circle(radius: 1.55cm, fill: rgb("#FDF3DC"), stroke: (dash: "dashed", paint: rgb("#E0B750"), thickness: 0.8pt))
+    ]
+    #dot(2.9cm, 1.55cm, [*"time off policy"* — the query], "query")
+    #dot(2.3cm, 2.3cm, [Vacation Entitlement], "near")
+    #dot(3.3cm, 2.9cm, [Annual Leave Guidance], "near")
+    #dot(2.45cm, 3.05cm, [Paid Absence FAQ], "near")
+
+    #dot(10.2cm, 1.1cm, [Fleet Carburettor Maintenance], "far")
+    #dot(11.4cm, 4.6cm, [Loading Dock Access Hours], "far")
+    #dot(8.6cm, 3.4cm, [Q3 Revenue Forecast], "far")
+
+    #place(bottom + left, dx: 0.5cm, dy: -0.35cm)[
+      #text(size: 7.5pt, font: ("Segoe UI", "Calibri"), style: "italic", fill: rgb("#8A939C"))[
+        Nearby means similar in meaning — not similar in wording.
+      ]
+    ]
+  ]
+]
+```
+
+Nothing in the shaded cluster shares a word with the query. Keyword search returns none
+of them; vector search returns all three, in that order.
+
 ### Cosine similarity
 
 The standard measure of closeness is **cosine similarity** — the cosine of the angle
@@ -150,7 +268,7 @@ pointing in nearly the same direction. The angle captures *what the text is abou
 independent of how much of it there is.
 
 You will rarely implement this yourself — the vector database does it — but when you see
-a relevance score of `0.87` in chapter 7, this is what produced it.
+a relevance score of `0.87` in Book II, this is what produced it.
 
 ### The practical limits
 
@@ -311,6 +429,73 @@ consequential implementation detail in a RAG system, and we'll spend real time o
 You now understand what you're paying for, what constrains you, what makes output
 reproducible, and what makes semantic search possible. That's the full set of levers on
 a language model.
+
+## Build this: the token audit
+
+This is the most useful exercise in the book, and the one most likely to change how
+people at work treat you.
+
+Pick a real system at your workplace that someone has suggested "adding AI" to. A service
+desk. A policy lookup. A document summarizer. Something that exists and has real volume.
+
+Then answer, in writing, the question you will eventually be asked out loud: **what would
+this cost to run for a year?**
+
+### Part 1 — Measure, don't estimate
+
+Take real data from that system. Not a sample sentence — real tickets, real policy text,
+real email. Put it through a tokenizer.
+
+| Measure | Your number |
+|---|---|
+| Characters in a typical input | |
+| Tokens in that same input | |
+| Ratio (tokens per character) | |
+| Same ratio for a block of JSON or IDs | |
+
+The gap between those two ratios is the point of the exercise.
+
+### Part 2 — Build the arithmetic
+
+Show your working:
+
+```text
+input tokens per request  = system prompt + retrieved context + user question
+output tokens per request = typical answer length
+requests per day          = users × requests each
+annual                    = requests per day × 250 working days
+```
+
+Then state which component dominates, and what you would change first if asked to halve
+the cost.
+
+Most people discover the answer is "retrieved context," which is the finding that makes
+chunking strategy in Book II feel urgent rather than academic.
+
+### Part 3 — Test temperature yourself
+
+Take one real task with a correct answer — classifying ten tickets, extracting a field
+from ten documents. Run it three times at temperature 0, then three times at 1.0.
+
+Record how many of the thirty results differ. Then answer in one sentence: **could you
+have tested this system at 1.0?**
+
+### Part 4 — The conversation multiplier
+
+Rerun your Part 2 arithmetic assuming a multi-turn conversation that resends full
+history, averaging six turns — the diagram earlier in this chapter, with real numbers
+attached.
+
+Compare the two annual figures. That gap is the cost of statelessness, and it is the
+number most proposals omit entirely.
+
+### Why this one matters disproportionately
+
+Everything else in this book teaches you to build. This teaches you to answer the
+question that decides whether anything you build gets approved.
+
+It is also what distinguishes someone who has shipped an AI system from someone who has
+followed a tutorial, in an interview. Tutorials never mention cost.
 
 The next chapter is about the one input you control completely: the prompt. Having
 understood the machine, we turn to instructing it — and to the harder question of how

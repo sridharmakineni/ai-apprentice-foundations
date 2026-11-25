@@ -380,10 +380,50 @@ input and output, the model and temperature used, and a note on what you tried t
 That last field is the one worth having. In three months you will consider a change that
 you already tested and rejected, and the note is what stops you doing it twice.
 
-Then the exam: **twenty prompts, evaluated properly.** Not twenty prompts written —
-twenty prompts run against real inputs, scored against expectations you wrote down
-first, with one documented iteration. That exercise, done honestly, teaches more than
-the rest of this chapter.
+Store them as files, in version control, not in a document. Prompts are code.
+
+### Then the part that matters: evaluate one
+
+Pick **one** prompt — ideally the classifier, because it has objectively right answers.
+
+**Step 1. Build a test set.** Twenty real inputs from your workplace, redacted of
+anything identifying a person. Include the awkward ones, especially the ones you are not
+sure about yourself.
+
+**Step 2. Write down expected outputs first.** Before running anything, record what the
+correct answer is for each of the twenty.
+
+If you cannot decide the right answer for some of them, that is the single most valuable
+finding of the exercise: **the task is underspecified**, and no amount of prompt
+engineering fixes a task nobody has defined. Write that down.
+
+**Step 3. Run the baseline.** All twenty at temperature 0. Record every output. Score it.
+
+**Step 4. Iterate once, properly.** Look at the failures, identify the pattern, make
+**one** change. Re-run all twenty. Score again.
+
+**Step 5. Report.** Answer these in writing:
+
+- What was the baseline score?
+- What pattern did the failures share?
+- What single change did you make, and why that one?
+- What was the revised score?
+- Which cases still fail, and do you understand why?
+- What would tell you this prompt had stopped working in six months?
+
+### The rules that make it real
+
+**Twenty inputs minimum.** Ten is not enough to distinguish signal from luck.
+
+**Expectations written before running.** Scoring after the fact is marking your own
+homework with the answers visible.
+
+**One change per iteration.** Change three things and you learn nothing about which
+mattered.
+
+Nobody can check whether you did this honestly. Only you will know, and only you will
+carry the consequence — which is, precisely, whether you can tell a working prompt from
+one that happened to work on the example you thought of.
 
 ## Patterns worth stealing
 

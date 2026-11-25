@@ -364,6 +364,44 @@ Your version should:
 
 That last requirement is the one that teaches you something.
 
+### Starter data
+
+Create `employees.json` with at least eight people across three departments. Include
+Bruno (IT Operations) and Willie (Human Resources) so your examples match the book's.
+
+**Deliberately include one record with no `dept` field.** Your code should survive it.
+Real directories always have a record like that, and discovering it in week six is worse
+than discovering it now.
+
+### Rules
+
+**Write your own.** Read the worked example below, close the book, then write it. The gap
+between recognising code and producing it is the whole point of this chapter.
+
+**Every function returns a value** rather than printing. Printing happens in one place at
+the end. Functions that return data can be tested; functions that print can only be
+watched.
+
+**Specify `encoding="utf-8"`** on every file operation.
+
+**No credentials anywhere**, even though this project has none. Build the habit now.
+
+### Stretch goals
+
+Only after the six requirements work: export to CSV as well as JSON; add a
+`--department` flag with `argparse`; write three tests with `pytest`.
+
+The tests are the most valuable of the three, and they will matter enormously by Book III.
+
+### What to write down
+
+When it works, write a paragraph on what broke and how you fixed it. Be specific: *"I
+spent 40 minutes on a `TypeError: 'NoneType' object is not subscriptable` because
+`load_employees` returned `None` when the file was missing"* is worth more than a
+description of what the program does.
+
+That paragraph is the thing you cannot get from the Python documentation.
+
 ## A worked example, end to end
 
 From here on the examples use the same two colleagues, so you are never decoding an
