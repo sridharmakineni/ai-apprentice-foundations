@@ -122,9 +122,22 @@ request. Keep durable rules in the system message — identity, tone, hard limit
 behaviour — and the specific ask in the user message.
 
 One Azure-specific limit worth knowing: when using the *Azure OpenAI on your data*
-feature, the system message is capped at **400 tokens** and anything beyond that is
-silently ignored. Silently is the problem — a long system prompt appears to work while
-its last half does nothing.
+feature, the system message is capped, and **anything beyond the cap is silently
+ignored**. Silently is the problem — a long system prompt appears to work while its last
+section does nothing at all.
+
+The cap is model-dependent, which is a trap in itself:
+
+| Model | Max system-message tokens |
+|---|---|
+| GPT-35-0301, GPT-4-0613-8K | 400 |
+| GPT-35-turbo-0125, GPT-4-0613-32K | 2,000 |
+| GPT-4-turbo-0409, GPT-4o, GPT-4o-mini | 4,000 |
+
+Microsoft's own FAQ still states a flat 400, which is correct only for the older models.
+Check the figure for the model you are actually deploying — and note that a system
+prompt which fits comfortably today can start being truncated if someone switches the
+deployment to a different model.
 
 ## Getting structured output
 
