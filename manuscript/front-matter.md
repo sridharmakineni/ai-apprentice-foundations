@@ -1,6 +1,4 @@
-```{=typst}
-#frontmatter-open("Before", "you start.")
-```
+# Before You Start {-}
 
 ## Who this book is for
 

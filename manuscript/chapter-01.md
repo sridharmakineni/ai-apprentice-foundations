@@ -33,12 +33,33 @@ Most of this chapter is about being able to ask those three questions precisely.
 Four terms get used interchangeably and shouldn't be. They nest, and the nesting is
 literal rather than decorative.
 
-```text
-Artificial Intelligence
-  └─ Machine Learning
-       └─ Deep Learning
-            └─ Generative AI
-                 └─ Large Language Models
+```{=typst}
+#let ring(label, note, depth) = {
+  let shades = (rgb("#26292B"), rgb("#3D4348"), rgb("#5A6269"), rgb("#8A6410"), rgb("#F0B323"))
+  let fills  = (rgb("#F4F5F6"), rgb("#EAECEE"), rgb("#E0E3E6"), rgb("#FCF3DE"), rgb("#F8E4B0"))
+  block(
+    width: 100% - depth * 1.5cm,
+    inset: (x: 12pt, y: 9pt),
+    fill: fills.at(depth),
+    stroke: (left: 3pt + shades.at(depth)),
+    radius: 2pt,
+  )[
+    #set par(justify: false, leading: 0.5em)
+    #text(size: 9.5pt, weight: "bold", font: ("Segoe UI", "Calibri"),
+          fill: rgb("#111827"))[#label]
+    #h(0.5em)
+    #text(size: 8.5pt, fill: rgb("#5A6269"), font: ("Segoe UI", "Calibri"))[#note]
+    #v(0.45em)
+  ]
+}
+
+#block(width: 100%, inset: (y: 8pt))[
+  #ring("Artificial Intelligence", "any system doing things that need intelligence", 0)
+  #pad(left: 1.5cm, ring("Machine Learning", "learns its rules from data", 1))
+  #pad(left: 3.0cm, ring("Deep Learning", "neural networks, many layers", 2))
+  #pad(left: 4.5cm, ring("Generative AI", "produces content, not labels", 3))
+  #pad(left: 6.0cm, ring("Large Language Models", "over text", 4))
+]
 ```
 
 **Artificial intelligence** is the widest ring: any system performing tasks that
