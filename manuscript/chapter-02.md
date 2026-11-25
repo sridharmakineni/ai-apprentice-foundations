@@ -32,7 +32,7 @@ problem than being unable to write the service.
 
 | You know | Python calls it | Looks like |
 |---|---|---|
-| `$variable` | variable | `name = "Sridhar"` |
+| `$variable` | variable | `name = "Bruno"` |
 | Array / collection | list | `teams = ["IT", "HR"]` |
 | Hashtable / `@{}` | dictionary | `person = {"name": "Ada", "dept": "IT"}` |
 | Function / cmdlet | function | `def greet(name):` |
@@ -366,8 +366,8 @@ That last requirement is the one that teaches you something.
 
 ## A worked example, end to end
 
-Throughout this series the examples use the same two colleagues, so you are never
-decoding an unfamiliar scenario and an unfamiliar concept at the same time.
+From here on the examples use the same two colleagues, so you are never decoding an
+unfamiliar scenario and an unfamiliar concept at the same time.
 
 **Bruno** works in IT Operations. He files the support tickets you'll classify in
 chapter 4, and he types in a hurry — his tickets are terse, ambiguous and realistic.
