@@ -1,4 +1,4 @@
-# Chapter 2: Python for AI
+# Python for AI
 
 You do not need to become a Python developer. You need to become fluent in about
 fifteen percent of the language, because that fifteen percent is what every AI tutorial,

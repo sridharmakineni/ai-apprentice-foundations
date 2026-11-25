@@ -1,4 +1,4 @@
-# Chapter 1: What AI Actually Is
+# What AI Actually Is
 
 There is a meeting that happens in every organization now. A vendor is presenting. The
 slide says *AI-powered*. Someone from finance asks what that means, and the answer takes

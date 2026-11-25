@@ -1,4 +1,4 @@
-# Chapter 4: Prompt Engineering
+# Prompt Engineering
 
 Prompt engineering has a branding problem. The word suggests secret phrasings — magic
 words that unlock hidden capability — and the internet is full of people selling exactly

@@ -1,4 +1,4 @@
-# Chapter 3: Inside the Model
+# Inside the Model
 
 Chapter 1 said a language model predicts the next chunk of text. True, and not yet
 useful. This chapter turns that sentence into the four things you can actually control:
