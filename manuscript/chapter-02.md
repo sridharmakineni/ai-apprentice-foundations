@@ -6,8 +6,8 @@ SDK and code sample assumes you already know.
 
 This chapter is that fifteen percent. It is deliberately not a Python course — there are
 excellent ones and this isn't trying to be another. It is the specific subset that stops
-you being stuck, chosen by working backwards from what you'll actually meet in chapters
-5 through 16.
+you being stuck, chosen by working backwards from what you will actually meet in Books II
+and III.
 
 If you already write PowerShell or build Power Platform solutions, you are much closer
 to this than you think. You've been doing the hard part — modelling a process, handling
@@ -57,8 +57,8 @@ forgives this; Python does not.
 Almost every bug you hit in your first month will be a confusion between these.
 
 ```python
-employees = ["Ada", "Grace", "Alan"]          # list    — ordered, changeable
-person    = {"name": "Ada", "dept": "IT"}     # dict    — key/value lookup
+employees = ["Bruno", "Willie", "Ada"]        # list    — ordered, changeable
+person    = {"name": "Bruno", "dept": "IT"}   # dict    — key/value lookup
 location  = ("Toronto", "ON")                 # tuple   — ordered, fixed
 dept_ids  = {"IT", "HR", "IT"}                # set     — unique, unordered
 ```
@@ -153,7 +153,7 @@ worlds:
 ```python
 import json
 
-text = '{"name": "Ada", "skills": ["Python", "SQL"]}'
+text = '{"name": "Bruno", "skills": ["Python", "SQL"]}'
 
 data = json.loads(text)        # JSON string  -> Python dict
 back = json.dumps(data)        # Python dict  -> JSON string
@@ -344,14 +344,14 @@ what returned nothing, which is why checking return values early saves time late
 The last row will become familiar in chapter 4, and it's not really a Python problem:
 it's what happens when a model wraps its JSON in a helpful sentence.
 
-## This week's project
+## Build this
 
 Build an **Employee Directory Search**: load a list of people from a JSON file, search
 by name, filter by department, export the results.
 
 It is deliberately unglamorous and there is no AI in it. That's the point — it exercises
 dicts, lists, functions, file handling and JSON, which are precisely the things that
-will otherwise block you in week 6 when you're trying to understand why your chatbot
+will otherwise block you in Book II when you're trying to understand why your chatbot
 can't read its own configuration.
 
 Your version should:
@@ -433,7 +433,7 @@ Forty lines, and every idea from this chapter is in it: dicts and lists, `.get()
 default, a comprehension, a set for uniqueness, f-strings, type hints, file handling with
 explicit encoding, and error handling that fails usefully instead of crashing.
 
-Read it until each line is obvious. That is genuinely the bar for this week — not
+Read it until each line is obvious. That is genuinely the bar for this chapter — not
 writing it from memory, but looking at it and finding nothing mysterious.
 
 A few choices in there are worth defending, because they're habits rather than
@@ -468,7 +468,7 @@ construct a client, build a dict of parameters, call a method, pull a value out 
 nested response.
 
 That recognition is the actual goal of this chapter, and it's worth being clear about
-why. You are not going to write much Python from scratch in the weeks ahead. You are
+why. You are not going to write much Python from scratch in what follows. You are
 going to read a great deal of it — documentation, samples, code a model wrote for you —
 and the difference between productive and stuck is whether you can look at an
 unfamiliar twenty lines and say *I know what that's doing* rather than *I hope that

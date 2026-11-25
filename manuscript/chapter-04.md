@@ -205,7 +205,7 @@ easy. Knowing whether it works is not.
 "I tried it and it looked good" is not evaluation. It is one sample, judged by someone
 who wants it to succeed.
 
-A workable approach, and the one the week's exam exercises:
+A workable approach, and the one the exercises at the end of this chapter use:
 
 1. **Build a test set.** Twenty real inputs — including the awkward ones. Real tickets,
    real emails, real documents.
@@ -322,7 +322,7 @@ behaviour three weeks later.
 **Store the evaluation alongside.** A prompt and its test set belong together. Separated,
 the test set rots and the prompt becomes unverifiable.
 
-This is why the week's project is a *library* rather than a document. You're building
+This is why the exercise below asks for a *library* rather than a document. You're building
 the habit of treating prompts as engineering artifacts, because by Book III you'll have
 dozens of them across several agents and the ones without tests will be the ones that
 break.
@@ -354,7 +354,7 @@ Three things make it work: a **specific** refusal (not "say you don't know"), an
 near-misses — inferring, generalizing, falling back on general knowledge — because those
 are what the model will otherwise do.
 
-## This week's project
+## Build this
 
 Build a **Prompt Library** — a structured, version-controlled collection of prompts that
 actually work, in four categories: email drafting, SQL generation, code explanation, and
